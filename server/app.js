@@ -14,5 +14,7 @@ app.use(
 );
 
 const server = app.listen(app.get('port'), () => {
-  console.log(`Express running → PORT ${server.address().port}`);
+  const { port } = server.address();
+  console.log(`Express running → PORT ${port}`);
+  console.log(`GraphQL API server at http://localhost:${port}/graphql`);
 });
