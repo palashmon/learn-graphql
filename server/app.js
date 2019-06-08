@@ -1,5 +1,6 @@
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
+const schema = require('./schema/schema');
 
 // create our Express app
 const app = express();
@@ -9,7 +10,7 @@ app.set('port', process.env.PORT || 4000);
 app.use(
   '/graphql',
   graphqlHTTP({
-    // pass in a schema property
+    schema
   })
 );
 
