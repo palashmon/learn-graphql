@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 const graphql = require('graphql');
 const find = require('lodash/find');
 
@@ -7,9 +8,24 @@ const {
 
 // dummy data
 const books = [
-  { name: 'Name of the Wind', genre: 'Fantasy', id: '1' },
-  { name: 'The Final Empire', genre: 'Fantasy', id: '2' },
-  { name: 'The Long Earth', genre: 'Sci-Fi', id: '3' },
+  {
+    name: 'Name of the Wind',
+    genre: 'Fantasy',
+    id: '1',
+    authorId: '1',
+  },
+  {
+    name: 'The Final Empire',
+    genre: 'Fantasy',
+    id: '2',
+    authorId: '2',
+  },
+  {
+    name: 'The Long Earth',
+    genre: 'Sci-Fi',
+    id: '3',
+    authorId: '3',
+  },
 ];
 
 const authors = [
@@ -25,9 +41,16 @@ const BookType = new GraphQLObjectType({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
     genre: { type: GraphQLString },
+    author: {
+      type: AuthorType,
+      resolve(parent) {
+        return find(authors, { id: parent.authorId });
+      },
+    },
   }),
 });
 
+// Create a Author type
 const AuthorType = new GraphQLObjectType({
   name: 'Author',
   fields: () => ({
@@ -44,7 +67,7 @@ const RootQuery = new GraphQLObjectType({
     book: {
       type: BookType,
       args: { id: { type: GraphQLID } },
-      resolve(parent, args) {
+      resolve(_parent, args) {
         // code to get data from db / other source
         return find(books, { id: args.id });
       },
@@ -52,7 +75,7 @@ const RootQuery = new GraphQLObjectType({
     author: {
       type: AuthorType,
       args: { id: { type: GraphQLID } },
-      resolve(parent, args) {
+      resolve(_parent, args) {
         return find(authors, { id: args.id });
       },
     },
