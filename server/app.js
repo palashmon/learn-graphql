@@ -1,10 +1,14 @@
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const schema = require('./schema/schema');
 
 // create our Express app
 const app = express();
+
+// allow cross-origin requests
+app.use(cors());
 
 // import environmental variables from our .env file
 require('dotenv').config({ path: 'variables.env' });
