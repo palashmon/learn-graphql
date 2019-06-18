@@ -51,7 +51,7 @@ const RootQuery = new GraphQLObjectType({
     book: {
       type: BookType,
       args: { id: { type: GraphQLID } },
-      resolve(_parent, args) {
+      resolve(parent, args) {
         // code to get data from db / other source
         // return find(books, { id: args.id });
       },
@@ -59,7 +59,7 @@ const RootQuery = new GraphQLObjectType({
     author: {
       type: AuthorType,
       args: { id: { type: GraphQLID } },
-      resolve(_parent, args) {
+      resolve(parent, args) {
         // return find(authors, { id: args.id });
       },
     },
@@ -94,6 +94,22 @@ const Mutation = new GraphQLObjectType({
           age: args.age,
         });
         return author.save();
+      },
+    },
+    addBook: {
+      type: BookType,
+      args: {
+        name: { type: GraphQLString },
+        genre: { type: GraphQLString },
+        authorId: { type: GraphQLID },
+      },
+      resolve(parent, args) {
+        const book = new Book({
+          name: args.name,
+          genre: args.genre,
+          authorId: args.authorId,
+        });
+        return book.save();
       },
     },
   },
