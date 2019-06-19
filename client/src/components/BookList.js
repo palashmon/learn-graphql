@@ -16,11 +16,12 @@ class BookList extends Component {
     const { loading, error, books } = this.props.data;
 
     if (loading) return <div>Loading books...</div>;
-    if (error) return <div>Error :(</div>;
+    if (error) return <div>{error.message}</div>;
 
-    return books.map(book => {
-      return <li key={book.id}>{book.name}</li>;
-    });
+    // Sort book by name
+    books.sort((a, b) => a.name.localeCompare(b.name));
+
+    return books.map(book => <li key={book.id}>{book.name}</li>);
   }
 
   render() {
