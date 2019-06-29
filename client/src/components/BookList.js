@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import { getBooksQuery } from '../queries/queries';
 
+// components
+import BookDetails from './BookDetails';
+
 class BookList extends Component {
   displayBooks() {
     const { loading, error, books } = this.props.data;
@@ -18,7 +21,10 @@ class BookList extends Component {
   render() {
     return (
       <div>
-        <ul id="book-list">{this.displayBooks()}</ul>
+        <div>
+          <ul id="book-list">{this.displayBooks()}</ul>
+        </div>
+        <BookDetails />
       </div>
     );
   }
