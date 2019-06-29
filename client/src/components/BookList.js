@@ -6,6 +6,11 @@ import { getBooksQuery } from '../queries/queries';
 import BookDetails from './BookDetails';
 
 class BookList extends Component {
+  // Intial state
+  state = {
+    selected: null,
+  };
+
   displayBooks() {
     const { loading, error, books } = this.props.data;
 
@@ -15,7 +20,11 @@ class BookList extends Component {
     // Sort book by name
     books.sort((a, b) => a.name.localeCompare(b.name));
 
-    return books.map(book => <li key={book.id}>{book.name}</li>);
+    return books.map(book => (
+      <li key={book.id} onClick={e => this.setState({ selected: book.id })}>
+        {book.name}
+      </li>
+    ));
   }
 
   render() {
@@ -24,7 +33,7 @@ class BookList extends Component {
         <div>
           <ul id="book-list">{this.displayBooks()}</ul>
         </div>
-        <BookDetails />
+        <BookDetails bookId={this.state.selected} />
       </div>
     );
   }
